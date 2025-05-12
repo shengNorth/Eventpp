@@ -254,7 +254,7 @@ namespace eventpp
             template<typename FuncT, typename ArgsT>
             Return apply(FuncT func, ArgsT args) const noexcept
             {
-                static constexpr auto size = std::tuple_size_v<ArgsT>;
+                static constexpr auto size = std::tuple_size<ArgsT>::value;
                 return apply_impl(func, args, std::make_index_sequence<size>{});
             }
 
@@ -317,15 +317,15 @@ namespace eventpp
 
         private:
 
-            template<typename FuncClassT, typename ClassT, typename ArgsT>
-            Return apply(FuncClassT func, ClassT* callee, ArgsT args) const noexcept
+            template<typename FuncClassT, typename Class, typename ArgsT>
+            Return apply(FuncClassT func, Class* callee, ArgsT args) const noexcept
             {
-                static constexpr auto size = std::tuple_size_v<ArgsT>;
+                static constexpr auto size = std::tuple_size<ArgsT>::value;
                 return apply_impl(func, callee, args, std::make_index_sequence<size>{});
             }
 
-            template<typename FuncClassT, typename ClassT, typename ArgsT, size_t... idx>
-            Return apply_impl(FuncClassT func, ClassT* callee, ArgsT args, std::index_sequence<idx...>) const noexcept
+            template<typename FuncClassT, typename Class, typename ArgsT, size_t... idx>
+            Return apply_impl(FuncClassT func, Class* callee, ArgsT args, std::index_sequence<idx...>) const noexcept
             {
                 return (callee->*func)(std::get<idx>(args)...);
             }
@@ -385,7 +385,7 @@ namespace eventpp
             template<typename FuncT, typename ArgsT>
             Return apply(FuncT func, ArgsT args) const noexcept
             {
-                static constexpr auto size = std::tuple_size_v<ArgsT>;
+                static constexpr auto size = std::tuple_size<ArgsT>::value;
                 return apply_impl(func, args, std::make_index_sequence<size>{});
             }
 
